@@ -1,0 +1,184 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+
+\begin{document}
+
+\title{CSE400 – Fundamentals of Probability in Computing\\
+Lecture – 5: Bayes’ Theorem, Random Variables, and Probability Mass Function}
+\author{Dhaval Patel, PhD\\
+Associate Professor\\
+SEAS–Ahmedabad University, Ahmedabad, Gujarat, India}
+\date{January 20, 2026}
+\maketitle
+
+\section*{L5\_A\_S2}
+
+\section*{Outline}
+
+Bayes’ Theorem
+
+Weighted Average of Conditional Probabilities
+
+Learning by Example
+
+Formal Introduction: Law of Total Probability and Bayes Theorem
+
+Random Variables
+
+Motivation and Concept
+
+Examples
+
+Probability Mass Function (PMF)
+
+Concept + Examples
+
+\section*{Bayes’ Theorem\\Weighted Average of Conditional Probabilities}
+
+Let $A$ and $B$ be events. We may express $A$ as
+
+\[
+A = AB \cup AB^c
+\]
+
+for, in order for an outcome to be in $A$, it must either be in both $A$ and $B$ or be in $A$ but not in $B$.
+
+As $AB$ and $AB^c$ are clearly mutually exclusive, we have, by Axiom 3,
+
+\[
+\Pr(A) = \Pr(AB) + \Pr(AB^c)
+\]
+\[
+= \Pr(A \mid B)\Pr(B) + \Pr(A \mid B^c)[1 - \Pr(B)].
+\]
+
+The probability of event $A$ is a weighted average of the conditional probabilities with weights given as the probability of the event on which it is conditioned has of occurring.
+
+\section*{Bayes’ Theorem\\Learning by Example}
+
+\subsection*{EXAMPLE \#3.1 (Part 1/2):}
+
+An insurance company believes that people can be divided into two classes: those who are accident prone and those who are not. The company’s statistics show that an accident-prone person will have an accident at some time within a fixed 1-year period with probability 0.4, whereas this probability decreases to 0.2 for a person who is not accident prone. If we assume that 30 percent of the population is accident prone, what is the probability that a new policyholder will have an accident within a year of purchasing a policy?
+
+\subsection*{Solution:}
+
+Let $A_1$ denote the event that the policyholder will have an accident within a year of purchasing the policy, and let $A$ denote the event that the policyholder is accident prone. Hence, the desired probability is
+
+\[
+\Pr(A_1) = \Pr(A_1 \mid A)\Pr(A) + \Pr(A_1 \mid A^c)\Pr(A^c)
+\]
+\[
+= (0.4)(0.3) + (0.2)(0.7) = 0.26.
+\]
+
+\subsection*{EXAMPLE \#3.1 (Part 2/2):}
+
+Suppose that a new policyholder has an accident within a year of purchasing a policy. What is the probability that he or she is accident prone?
+
+\subsection*{Solution:}
+
+\[
+\Pr(A \mid A_1) = \frac{\Pr(AA_1)}{\Pr(A_1)} = \frac{\Pr(A)\Pr(A_1 \mid A)}{\Pr(A_1)}
+\]
+\[
+= \frac{(0.3)(0.4)}{0.26} = \frac{6}{13}.
+\]
+
+\section*{Bayes’ Theorem\\Formal Introduction: Law of Total Probability and Bayes Theorem}
+
+This is known as the law of total probability [Formula 3.4].
+
+Using
+
+\[
+\Pr(AB_i) = \Pr(B_i \mid A)\Pr(A),
+\]
+
+we get
+
+This is known as the Bayes Formula [Proposition 3.1].
+
+Here,
+
+$\Pr(B_i)$ is the apriori probability, and
+
+$\Pr(B_i \mid A)$ is the posteriori probability of event $B_i$ given $A$.
+
+\section*{Bayes Formula\\Learning by Example}
+
+\subsection*{EXAMPLE \#3.2:}
+
+Suppose that we have 3 cards that are identical in form, except that both sides of the first card are colored red, both sides of the second card are colored black, and one side of the third card is colored red and the other side black. The 3 cards are mixed up in a hat, and 1 card is randomly selected and put down on the ground. If the upper side of the chosen card is colored red, what is the probability that the other side is colored black?
+
+\subsection*{Solution:}
+
+Let $RR$, $BB$, and $RB$ denote the events that the chosen card is all red, all black, or the red--black card. Also, let $R$ be the event that the upturned side of the chosen card is red. Then,
+
+\[
+\Pr(RB \mid R) = \frac{\Pr(RB \cap R)}{\Pr(R)}
+\]
+
+\[
+= \frac{\Pr(R \mid RB)\Pr(RB)}{\Pr(R \mid RR)\Pr(RR) + \Pr(R \mid RB)\Pr(RB) + \Pr(R \mid BB)\Pr(BB)}
+\]
+
+\[
+= \frac{(1/2)(1/3)}{(1)(1/3) + (1/2)(1/3) + (0)(1/3)} = \frac{1}{3}.
+\]
+
+If we think of each card as consisting of two distinct sides, then there are 6 equally likely outcomes:
+
+\[
+R_1, R_2, B_1, B_2, R_3, B_3.
+\]
+
+Since the other side of the upturned red side will be black only if the outcome is $R_3$, the desired probability is $1/3$.
+
+\section*{Random Variables\\Motivation and Concept}
+
+When an experiment is performed, we are frequently interested mainly in some function of the outcome as opposed to the actual outcome itself.
+
+Experiment-1: In dice tossing, the focus is many times on the sum of the two dice rather than the individual values that got us that sum.
+
+Experiment-2: When flipping a coin, the interest may lie in the total number of heads without focusing on the specific head--tail sequence.
+
+These real-valued functions defined on the sample space are known as Random Variables.
+
+Values are determined by the outcomes of an experiment.
+
+Probabilities are assigned to possible values of Random Variables.
+
+The distribution of a random variable can be visualized as a bar diagram.
+
+\section*{Random Variables\\Examples}
+
+Suppose that our experiment consists of tossing 3 fair coins. If we let $Y$ denote the number of heads that appear, then $Y$ is a random variable taking on values $0,1,2,3$ with probabilities:
+
+\[
+P\{Y=0\} = \frac{1}{8}, \quad
+P\{Y=1\} = \frac{3}{8}, \quad
+P\{Y=2\} = \frac{3}{8}, \quad
+P\{Y=3\} = \frac{1}{8}.
+\]
+
+\[
+\sum_{y=0}^{3} P\{Y=y\} = 1.
+\]
+
+\section*{Probability Mass Function (PMF)}
+
+Let $X$ be a discrete random variable with range $R_X = x_1, x_2, x_3, \dots$.
+
+\[
+p(x_k) = \Pr\{X = x_k\}
+\]
+
+\[
+\sum_k p(x_k) = 1.
+\]
+
+\section*{Class Participation}
+
+Please switch to Campuswire for class participation and discussion.
+
+\end{document}
