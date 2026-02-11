@@ -1,0 +1,259 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \\documentclass[11pt]\{article\}\
+\
+% ===================== PACKAGES =====================\
+\\usepackage[a4paper,margin=1in]\{geometry\}\
+\\usepackage\{amsmath,amssymb\}\
+\\usepackage\{enumitem\}\
+\\usepackage\{fancyhdr\}\
+\\usepackage\{xcolor\}\
+\
+% ===================== HEADER & FOOTER =====================\
+\\pagestyle\{fancy\}\
+\\fancyhf\{\}\
+\\lhead\{CSE 400: Fundamentals of Probability in Computing\}\
+\\rhead\{Lecture Scribe -- Lecture 10\}\
+\\cfoot\{\\thepage\}\
+\
+% ===================== TITLE =====================\
+\\title\{\
+    \\normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\\\\
+    \\vspace\{0.2cm\}\
+    \\textbf\{CSE 400: Fundamentals of Probability in Computing\}\\\\\
+    \\Large Lecture 10 Scribe: Randomized Min-Cut Algorithm\
+\}\
+\
+\\author\{\}\
+\\date\{\}    \
+\\begin\{document\}\
+\\maketitle\
+\
+\
+\\vspace\{-2cm\}\
+\\begin\{center\}\
+    \\begin\{tabular\}\{ll\}\
+        \\textbf\{Instructor:\} & \{Prof. Dhaval Patel\} \\\\ [1.5ex]\
+        \\textbf\{Course:\} & \{CSE 400 -- Fundamentals of Probability in Computing\} \\\\ [1.5ex]\
+        \\textbf\{Lecture:\} & \{Lecture 10\} \\\\ [1.5ex]\
+        \\textbf\{Date:\} & \{5th Feb 2026\} \\\\ [1.5ex]\
+    \\end\{tabular\}\
+\\end\{center\}\
+\
+\\hrule\
+\\vspace\{0.5cm\}\
+\
+% ===================== LECTURE SCRIBE =====================\
+\
+\\section\{Overview of the Lecture\}\
+This lecture covers:\
+\\begin\{itemize\}\
+    \\item Min-Cut Problem\
+    \\item Motivation for using min-cut\
+    \\item Definition of min-cut\
+    \\item Successful and unsuccessful min-cut runs\
+    \\item Max-Flow Min-Cut Theorem\
+    \\item Deterministic Min-Cut Algorithm\
+    \\item Stoer--Wagner minimum cut algorithm\
+    \\item Randomized Min-Cut Algorithm\
+    \\item Karger\'92s Randomized Algorithm\
+    \\item Comparison between deterministic and randomized approaches\
+    \\item Theorem for min-cut set\
+    \\item Python simulation\
+\\end\{itemize\}\
+\
+\\section\{Min-Cut Problem\}\
+\
+\\subsection\{Why Use Min-Cut?\}\
+Min-cut algorithms are used to solve problems related to:\
+\\begin\{itemize\}\
+    \\item Network connectivity\
+    \\item Reliability\
+    \\item Optimization\
+\\end\{itemize\}\
+\
+Applications include:\
+\\begin\{itemize\}\
+    \\item \\textbf\{Network Design:\} Improves communication efficiency and helps find the minimum capacity cut.\
+    \\item \\textbf\{Communication Networks:\} Helps understand vulnerability to failures and build fault-tolerant networks.\
+    \\item \\textbf\{VLSI Design:\} Used for partitioning circuits into smaller components to reduce interconnectivity complexity.\
+\\end\{itemize\}\
+\
+\\subsection\{Definition of Min-Cut\}\
+\
+\\subsubsection\{Cut-Set\}\
+A cut-set in a graph is a set of edges whose removal breaks the graph into two or more connected components.\
+\
+\\subsubsection\{Minimum Cut\}\
+Given a graph \\( G = (V, E) \\) with \\( n \\) vertices, the minimum cut (min-cut) problem is to find a minimum cardinality cut-set in \\( G \\).\
+\
+Min-cut algorithms such as Karger\'92s algorithm are random and can be sensitive to the initial choice of edges. Contracting critical edges early may result in an incorrect cut.\
+\
+\\section\{Edge Contraction\}\
+Edge contraction is the primary operation used in min-cut algorithms.\
+\
+\\textbf\{Definition:\}  \
+Edge contraction removes an edge from a graph while simultaneously merging the two vertices.\
+\
+\\textbf\{Procedure:\}  \
+For an edge \\( (u,v) \\):\
+\\begin\{itemize\}\
+    \\item Merge vertices \\( u \\) and \\( v \\)\
+    \\item Remove all edges between \\( u \\) and \\( v \\)\
+    \\item Retain all other edges\
+\\end\{itemize\}\
+\
+The resulting graph may contain parallel edges but no self-loops.\
+\
+\\section\{Successful and Unsuccessful Min-Cut Runs\}\
+\
+\\subsection\{Successful Min-Cut Run\}\
+A successful min-cut run refers to an execution of a min-cut algorithm that correctly identifies the minimum cut of the graph.\
+\
+\\subsection\{Unsuccessful Min-Cut Run\}\
+An unsuccessful min-cut run refers to an execution in which the algorithm incorrectly identifies the minimum cut due to contraction of critical edges.\
+\
+\\section\{Max-Flow Min-Cut Theorem\}\
+\
+\\textbf\{Statement:\}  \
+In a flow network, the maximum amount of flow from the source to the sink is equal to the total weight of the edges in a minimum cut.\
+\
+\\textbf\{Definitions:\}\
+\\begin\{itemize\}\
+    \\item \\textbf\{Capacity of a cut:\} Sum of capacities of edges oriented from \\( X \\) to \\( Y \\)\
+    \\item \\textbf\{Minimum cut:\} Cut with the smallest capacity\
+    \\item \\textbf\{Minimum cut capacity:\} Capacity of the minimum cut\
+    \\item \\textbf\{Maximum flow:\} Largest possible flow from source \\( S \\) to sink \\( T \\)\
+\\end\{itemize\}\
+\
+\\section\{Deterministic Min-Cut Algorithm\}\
+\
+\\subsection\{Stoer--Wagner Minimum Cut Algorithm\}\
+Let \\( s \\) and \\( t \\) be two vertices of a graph \\( G \\). Let \\( G/\\\{s,t\\\} \\) be the graph obtained by merging \\( s \\) and \\( t \\).\
+\
+A minimum cut of \\( G \\) is the smaller of:\
+\\begin\{itemize\}\
+    \\item A minimum \\( s\\!-\\!t \\) cut of \\( G \\)\
+    \\item A minimum cut of \\( G/\\\{s,t\\\} \\)\
+\\end\{itemize\}\
+\
+\\subsection\{Stoer--Wagner Algorithm Pseudocode\}\
+\
+\\begin\{verbatim\}\
+Algorithm 1: MinimumCutPhase(G, a)\
+A 
+\f1 \uc0\u8592 
+\f0  \{a\};\
+while A \uc0\u8800  V do\
+    add to A the most tightly connected vertex;\
+return the cut weight as the cut of the phase;\
+\
+Algorithm 2: MinimumCut(G)\
+while |V| \uc0\u8805  1 do\
+    choose any a from V;\
+    MinimumCutPhase(G, a);\
+    if cut-of-the-phase is lighter than current minimum cut then\
+        store it;\
+    shrink G by merging the last two added vertices;\
+return the minimum cut;\
+\\end\{verbatim\}\
+\
+\\section\{Randomized Min-Cut Algorithm\}\
+\
+\\subsection\{Why Randomized Algorithms?\}\
+Randomized algorithms provide a probabilistic guarantee of success and often require fewer iterations. They offer:\
+\\begin\{itemize\}\
+    \\item Efficiency\
+    \\item Parallelization\
+    \\item Approximation guarantees\
+    \\item Robustness\
+\\end\{itemize\}\
+\
+\\subsection\{Karger\'92s Randomized Algorithm\}\
+Karger\'92s algorithm repeatedly contracts randomly selected edges until two vertices remain.\
+\
+\\subsection\{Recursive Randomized Min-Cut Pseudocode\}\
+\
+\\begin\{verbatim\}\
+else\
+for i 
+\f1 \uc0\u8592 
+\f0  1 to \uc0\u945  do\
+    G' 
+\f1 \uc0\u8592 
+\f0  multigraph obtained by applying\
+         n \uc0\u8722  
+\f2 \uc0\u8968 
+\f0 n/\uc0\u8730 \u945 
+\f2 \uc0\u8969 
+\f0  random contraction steps;\
+    C' 
+\f1 \uc0\u8592 
+\f0  Recursive-Randomized-Min-Cut(G', \uc0\u945 );\
+    if i = 1 or |C'| < |C| then\
+        C 
+\f1 \uc0\u8592 
+\f0  C';\
+return C;\
+\\end\{verbatim\}\
+\
+\\section\{Comparison: Deterministic vs Randomized Min-Cut\}\
+\
+\\subsection\{Deterministic Min-Cut\}\
+\\begin\{itemize\}\
+    \\item Guarantees exact minimum cut\
+    \\item Higher time complexity for large graphs\
+    \\item Time complexity:\
+    \\[\
+    O(V \\cdot E + V^2 \\log V)\
+    \\]\
+\\end\{itemize\}\
+\
+\\subsection\{Randomized Min-Cut\}\
+\\begin\{itemize\}\
+    \\item Produces minimum cut with high probability\
+    \\item Time complexity:\
+    \\[\
+    O(V^2)\
+    \\]\
+\\end\{itemize\}\
+\
+\\section\{Theorem for Min-Cut Set\}\
+The algorithm outputs a min-cut set with probability at least:\
+\\[\
+\\frac\{2\}\{n(n-1)\}\
+\\]\
+\
+\\section\{Python Simulation\}\
+\\begin\{itemize\}\
+    \\item Open Campuswire post for Lecture 10\
+    \\item Download the provided \\texttt\{.ipynb\} file\
+\\end\{itemize\}\
+\
+\\section\{Summary\}\
+Key concepts for revision:\
+\\begin\{itemize\}\
+    \\item Cut-set and min-cut definitions\
+    \\item Edge contraction\
+    \\item Successful vs unsuccessful runs\
+    \\item Max-Flow Min-Cut theorem\
+    \\item Stoer--Wagner algorithm\
+    \\item Karger\'92s randomized algorithm\
+    \\item Probability guarantee for min-cut\
+\\end\{itemize\}\
+\
+\\bigskip\
+\\hrule\
+\\vspace\{0.2cm\}\
+\\begin\{center\}\
+    \\small \\textit\{End of Lecture Scribe\}\
+\\end\{center\}\
+\
+\\end\{document\}\
+}
