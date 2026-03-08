@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{CSE400: Fundamentals of Probability in Computing\\
+Lecture 5: Bayes' Theorem, Random Variables, and PMF}
+\author{Dhaval Patel, PhD}
+\date{January 20, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Outline}
+
+Bayes’ Theorem
+\begin{itemize}
+\item Weighted Average of Conditional Probabilities
+\item Learning by Example
+\item Law of Total Probability and Bayes Theorem
+\end{itemize}
+
+Random Variables
+\begin{itemize}
+\item Motivation and Concept
+\item Examples
+\end{itemize}
+
+Probability Mass Function
+\begin{itemize}
+\item Concept and Examples
+\end{itemize}
+
+\section{Bayes’ Theorem}
+
+\subsection{Weighted Average of Conditional Probabilities}
+
+Let A and B be events.
+
+\[
+A = AB \cup AB^c
+\]
+
+\[
+Pr(A) = Pr(AB) + Pr(AB^c)
+\]
+
+\[
+= Pr(A|B)Pr(B) + Pr(A|B^c)[1-Pr(B)]
+\]
+
+\subsection{Example 3.1 (Part 1)}
+
+\[
+Pr(A_1)=Pr(A_1|A)Pr(A)+Pr(A_1|A^c)Pr(A^c)
+\]
+
+\[
+=(0.4)(0.3)+(0.2)(0.7)=0.26
+\]
+
+\subsection{Example 3.1 (Part 2)}
+
+\[
+Pr(A|A_1)=\frac{Pr(A)Pr(A_1|A)}{Pr(A_1)}=\frac{(0.3)(0.4)}{0.26}=\frac{6}{13}
+\]
+
+\subsection{Law of Total Probability}
+
+\[
+Pr(AB_i)=Pr(B_i|A)Pr(A)
+\]
+
+Bayes Formula.
+
+\section{Random Variables}
+
+These real-valued functions are called Random Variables.
+
+\subsection{Example}
+
+For three fair coins:
+
+\[
+P(Y=0)=\frac18,\quad
+P(Y=1)=\frac38,\quad
+P(Y=2)=\frac38,\quad
+P(Y=3)=\frac18
+\]
+
+\section{Probability Mass Function}
+
+Let $X$ be discrete.
+
+\[
+p(x_k)=Pr(X=x_k)
+\]
+
+\[
+\sum p(x_k)=1
+\]
+
+\subsection{Example}
+
+\[
+p(i)=\frac{c\lambda^i}{i!}
+\]
+
+\section*{Class Participation}
+
+Please switch to Campuswire.
+
+\end{document}
