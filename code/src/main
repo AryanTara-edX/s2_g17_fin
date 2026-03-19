@@ -1,0 +1,68 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import io
+from google.colab import files
+
+# ----------------------------
+# Load dataset
+# ----------------------------
+
+try:
+    data = pd.read_csv("vrp_data.csv")
+except FileNotFoundError:
+    print("File 'vrp_data.csv' not found. Please upload it below:")
+    uploaded = files.upload()
+    if 'vrp_data.csv' in uploaded:
+        data = pd.read_csv(io.BytesIO(uploaded['vrp_data.csv']))
+    else:
+        raise FileNotFoundError("The required file 'vrp_data.csv' was not uploaded.")
+
+# ----------------------------
+# Step 1: Log returns
+# ----------------------------
+
+data["returns"] = np.log(data["Closed for RV(Pt)"] / data["P(t-1)"])
+
+# ----------------------------
+# Step 2: Realized volatility
+# ----------------------------
+
+data["RV"] = data["Closed for RV(Pt)"] / 100
+
+# ----------------------------
+# Step 3: Implied volatility
+# ----------------------------
+
+data["IV"] = data["Close for VIX"] / 100
+
+# ----------------------------
+# Step 4: Variance Risk Premium
+# ----------------------------
+
+data["VRP"] = data["IV"]**2 - data["RV"]**2
+
+# ----------------------------
+# Step 5: Measurement error model
+# ----------------------------
+
+data["Final_IV"] = data["true volatality"] + data["IV_error"]
+data["Final_RV"] = data["true volatality"] + data["RV_error"]
+
+# ----------------------------
+# Step 6: Final VRP
+# ----------------------------
+
+data["Final_VRP"] = data["Final_IV"]**2 - data["Final_RV"]**2
+
+# ----------------------------
+# Visualization
+# ----------------------------
+
+plt.figure(figsize=(10, 5))
+plt.plot(data["Final_VRP"])
+plt.title("Variance Risk Premium with Measurement Error")
+plt.xlabel("Time")
+plt.ylabel("VRP")
+plt.grid(True)
+plt.show()
