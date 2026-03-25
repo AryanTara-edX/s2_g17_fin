@@ -1,0 +1,103 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+\title{CSE400 - Fundamentals of Probability in Computing\\
+Lecture 20: Linear Transformations and Expectations of Multiple RVs}
+\author{Dhaval Patel, PhD}
+\date{March 19, 2025}
+\maketitle
+
+\section*{Outline}
+
+\begin{itemize}
+    \item Statistical Representation of Random Vectors
+    \item Mean Vector, Correlation, and Covariance Matrices
+    \item Linear Transformations
+    \item Mapping properties under $Y = AX + b$
+    \item Multivariate Gaussian Distributions
+    \item From 1D/2D cases to N-dimensional Joint PDFs
+    \item Special Cases and Properties
+    \item Implications of zero correlation and matrix factorization
+\end{itemize}
+
+\section*{Case Study: “Smart City Traffic + Weather System”}
+
+Imagine you are designing an intelligent system in a city like Ahmedabad that predicts traffic congestion using both transportation and climate variables.
+
+Easing ‘pain in the neck’ \\
+SVNIT to study 30 junctions in the city with highest traffic congestion, suggest solutions
+
+\subsection*{Step 1: Define N Random Variables}
+
+Let’s define a vector of random variables:
+
+This is your N-dimensional random vector (here $N = 5$).
+
+\subsection*{Step 2: Mean Vector}
+
+\subsection*{Step 3: Covariance Matrix}
+
+\textbf{Interpretation (Intuition and By Definition)}
+
+\begin{itemize}
+    \item More rain $\Rightarrow$ more congestion (traffic increases)
+    \item More rain $\Rightarrow$ lower speed
+    \item More traffic $\Rightarrow$ higher pollution
+    \item Higher temperature $\Rightarrow$ pollution disperses
+\end{itemize}
+
+covariance matrix = “dependency map of the city”
+
+\subsection*{Step 4: Joint Gaussian Distribution}
+
+We assume:
+
+This means:
+
+The entire system (traffic + climate) behaves in a structured probabilistic way defined by:
+
+\begin{itemize}
+    \item Mean (typical conditions)
+    \item Covariance (interdependencies)
+\end{itemize}
+
+Why Gaussian?
+
+\subsection*{Step 6: Transformation}
+
+Now suppose the Ahmedabad city defines a Congestion Index:
+
+This is a linear transformation:
+
+Inference \# 1
+
+\subsection*{Step 6: Transformation (continued)}
+
+Now suppose the Ahmedabad city defines a Congestion Index:
+
+This is a linear transformation:
+
+If rainfall increases suddenly, what happens?
+
+\begin{itemize}
+    \item Speed $\downarrow$
+    \item Traffic $\uparrow$
+    \item Pollution $\uparrow$
+\end{itemize}
+
+Inference \# 2
+
+\subsection*{Inference \# 2 (repeated emphasis)}
+
+If rainfall increases suddenly, what happens?
+
+\begin{itemize}
+    \item Speed $\downarrow$
+    \item Traffic $\uparrow$
+    \item Pollution $\uparrow$
+\end{itemize}
+
+\end{document}
