@@ -66,3 +66,28 @@ plt.xlabel("Time")
 plt.ylabel("VRP")
 plt.grid(True)
 plt.show()
+
+# ----------------------------
+# Plot 2: Empirical PDF (M3)
+# ----------------------------
+
+plt.figure()
+plt.hist(data["Final_VRP"], bins=30, density=True)
+plt.title("Empirical PDF of VRP (M3)")
+plt.xlabel("VRP")
+plt.ylabel("Density")
+plt.show()
+
+# ----------------------------
+# Plot 3: Empirical CDF (M3)
+# ----------------------------
+
+sorted_vrp = np.sort(data["Final_VRP"])
+cdf = np.arange(1, len(sorted_vrp) + 1) / len(sorted_vrp)
+
+plt.figure()
+plt.plot(sorted_vrp, cdf)
+plt.title("Empirical CDF of VRP (M3)")
+plt.xlabel("VRP")
+plt.ylabel("Cumulative Probability")
+plt.show()
